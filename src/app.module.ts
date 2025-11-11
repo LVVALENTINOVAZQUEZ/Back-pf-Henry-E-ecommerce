@@ -25,6 +25,7 @@ import { AdminModule } from './application/admin/admin.module';
     BookingsModule,
     PaymentsModule,
     CouponsModule,
+    
   ],
   controllers: [AppController],
   providers: [AppService],
