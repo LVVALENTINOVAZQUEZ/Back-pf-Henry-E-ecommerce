@@ -20,8 +20,7 @@ import { CouponsService } from '../coupons/coupons.service';
 @Injectable()
 export class BookingsService {
   constructor(private readonly prisma: PrismaService,
-  private readonly couponsService: CouponsService, // 👈 nuevo
-
+      private readonly couponsService: CouponsService, // 👈 nuevo
   ) {}
 
   async completeBooking(bookingId: string, user: UserPayloadInterface) {
@@ -114,11 +113,13 @@ export class BookingsService {
       createBooking.end_date,
     );
 
-     // 🚀 NUEVO: aplicar cupón de bienvenida si corresponde
-   gross = await this.couponsService.applyCoupon(
+    // 🚀 NUEVO: aplicar cupón de bienvenida si corresponde 
+
+   gross = await this.couponsService.applyCoupon( 
     createBooking.userId,
-    vehicle.id, // se usa como referencia, luego se marca bookingId
-    gross,
+    vehicle.id, // se usa como referencia, luego se marca bookingId 
+    gross, 
+
   );
 
     //calculos grales de impuestos comisiones etc

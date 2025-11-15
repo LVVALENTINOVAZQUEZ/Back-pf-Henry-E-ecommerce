@@ -45,7 +45,6 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly mailer: MailerService,
     private readonly couponsService: CouponsService, // 👈 nuevo
-
   ) {}
 
   /* ================== Helpers correo ================== */
@@ -58,25 +57,25 @@ export class AuthService {
     }
   }
 
-   private async safeSendLogin(email?: string | null, name?: string | null) { // 🐋 NUEVO
-    if (!email) return;
-    try {
-      await this.mailer.sendLoginEmail(email, name ?? '');
-    } catch (e: any) {
-      console.error('[AuthService] sendLoginEmail failed:', e?.message || e);
-    }
+  private async safeSendLogin(email?: string | null, name?: string | null) { // 🐋 NUEVO
+ if (!email) return;
+ try {
+   await this.mailer.sendLoginEmail(email, name ?? '');
+  } catch (e: any) {
+  console.error('[AuthService] sendLoginEmail failed:', e?.message || e);
   }
+ }
 
 
-  // 🦋 NUEVO helper para enviar cupón sin romper flujo
-  private async safeSendCoupon(email: string, code: string, discountPct: number) {
-    try {
-      await this.mailer.sendCouponEmail(email, code, discountPct);
-    } catch (e: any) {
-      console.error('[AuthService] sendCouponEmail failed:', e?.message || e);
-    }
-  }
-
+// 🦋 NUEVO helper para enviar cupón sin romper flujo
+ private async safeSendCoupon(email: string, code: string, discountPct: number) {
+ try {
+ await this.mailer.sendCouponEmail(email, code, discountPct);
+ } catch (e: any) {
+ console.error('[AuthService] sendCouponEmail failed:', e?.message || e);
+ }
+ }
+  
 
   /* ================== Roles ================== */
   private isAdminEmail(email?: string | null): boolean {
@@ -216,14 +215,13 @@ export class AuthService {
     }
 
     // 🦋 NUEVO: si el usuario fue creado, generar cupón y enviarlo sin romper flujo
-    if (created) {
-      const coupon = await this.couponsService.createWelcomeCoupon(user.id);
-      this.safeSendCoupon(user.email, coupon.code, coupon.discountPct);
-    }
+  if (created) {
+  const coupon = await this.couponsService.createWelcomeCoupon(user.id);
+  this.safeSendCoupon(user.email, coupon.code, coupon.discountPct);
+  }
 
     return { user, created };
   }
-
 
   async sendWelcomeForSso(user: {
     email?: string | null;
@@ -280,13 +278,9 @@ export class AuthService {
       password: hashed,
       role,
     } as any);
-      
- // 🐋 Generar cupón de bienvenida y enviarlo sin romper flujo
-    const coupon = await this.couponsService.createWelcomeCoupon(user.id);
-    this.safeSendCoupon(user.email, coupon.code, coupon.discountPct);
-
-
-
+    // 🐋 Generar cupón de bienvenida y enviarlo sin romper flujo
+   const coupon = await this.couponsService.createWelcomeCoupon(user.id);
+   this.safeSendCoupon(user.email, coupon.code, coupon.discountPct);
 
     this.safeSendWelcome(user.email, user.name ?? user.username ?? undefined);
 

@@ -24,7 +24,7 @@ import { CouponsModule } from '../coupons/coupons.module';
         signOptions: { expiresIn: '60m' },
       }),
     }),
-    CouponsModule,
+        CouponsModule, 
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, LocalJwtStrategy, AnyJwtGuard, RolesGuard, JwtAuthGuard],
