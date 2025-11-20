@@ -50,6 +50,9 @@ export class PinsService {
       ...(query.city && {
         city: { contains: query.city.trim(), mode: 'insensitive' },
       }),
+       ...(query.state && {
+      state: { contains: query.state.trim(), mode: 'insensitive' },
+      }),
     };
 
     // 🔎 Búsqueda general (texto libre)
@@ -100,6 +103,7 @@ export class PinsService {
           seats: true,
           transmission: true,
           averageRating: true,
+          state: true,
           photos: {
             where: { isCover: true },
             select: { url: true },
@@ -123,6 +127,7 @@ export class PinsService {
         transmission: pin.transmission,
         averageRating: pin.averageRating ?? 0,
         thumbnailUrl: pin.photos?.[0]?.url ?? null,
+        state: pin.state,
       })),
       page,
       limit,
@@ -161,6 +166,7 @@ export class PinsService {
     if (!pin) throw new NotFoundException('Pin not found');
     if (pin.status !== VehicleStatus.PUBLISHED)
       throw new NotFoundException('Pin not published');
+    const coverImage = pin.photos.length ? pin.photos[0].url : null;
 
     return {
       id: pin.id,
@@ -180,6 +186,7 @@ export class PinsService {
       status: pin.status,
       averageRating: Number(pin.averageRating ?? 0),
       photos: pin.photos.map((p) => ({ url: p.url })),
+      thumbnailUrl: coverImage,
     };
   }
 

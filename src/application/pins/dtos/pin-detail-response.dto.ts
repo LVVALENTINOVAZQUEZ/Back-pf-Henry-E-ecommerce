@@ -58,4 +58,7 @@ export class PinDetailResponseDto {
 
   @ApiProperty({ type: [String] })
   photos: { url: string }[];
+
+  @ApiProperty({ nullable: true })
+  thumbnailUrl: string | null;
 }
