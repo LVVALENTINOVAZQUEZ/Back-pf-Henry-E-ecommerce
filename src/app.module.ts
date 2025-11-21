@@ -14,6 +14,7 @@ import { PaymentsModule } from './application/payments/payments.module';
 import { AdminModule } from './application/admin/admin.module';
 import { ReviewsModule } from './application/reviews/reviews.module';
 import { StandardUserModule } from './application/standard-user/standard-user.module';
+import { CronModule } from './application/cron/cron.module';
 import { RenterModule } from './application/renter/renter.module';
 import { CouponsModule } from './application/coupons/coupons.module';
 @Module({
@@ -30,6 +31,7 @@ import { CouponsModule } from './application/coupons/coupons.module';
     AdminModule,
     ReviewsModule,
     StandardUserModule,
+    CronModule,
     RenterModule,
     CouponsModule,
   ],
