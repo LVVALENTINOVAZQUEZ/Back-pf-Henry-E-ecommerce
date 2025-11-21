@@ -9,6 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import axios from 'axios';
 import * as bcrypt from 'bcryptjs';
 import { MailerService } from '../mailer/mailer.service';
+import { UserStatus } from '@prisma/client';
 import { CouponsService } from '../coupons/coupons.service';
 
 type AppRole = 'ADMIN' | 'RENTER' | 'USER';
@@ -317,6 +318,11 @@ export class AuthService {
 
     // 👇 A partir de aquí queremos un User no-null
     const fresh = await this.usersService.findOneOrThrow(user.id);
+
+     // ⛔ Bloquear login de usuarios suspendidos
+    if (fresh.status === UserStatus.suspended) {
+      throw new UnauthorizedException('User is suspended');
+    }
 
     this.safeSendLogin(
       fresh.email,
