@@ -11,6 +11,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
     }),
   ],
   controllers: [BookingsController],
-  providers: [BookingsService, JwtAuthGuard],
+  providers: [BookingsService],
+  exports: [BookingsService],
 })
 export class BookingsModule {}
